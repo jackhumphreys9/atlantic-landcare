@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!--
+    Browser-tab icon. A simplified version of the logo's stump: the full lockup
+    has two lines of text and turns to mush below about 100px, so this keeps
+    only the mark. Colours are the logo's cream, bark brown, and leaf green.
+  -->
+  <rect width="64" height="64" rx="13" fill="#f2ecdc" />
+  <g stroke="#5f4326" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- grass tuft beside the stump -->
+    <path d="M45 42c0-6 3-10 6-12" fill="none" stroke="#2d5a34" />
+    <path d="M49 42c1-5 4-8 7-9" fill="none" stroke="#2d5a34" />
+    <!-- stump body -->
+    <path d="M20 26v14c0 4 5.4 6.5 12 6.5s12-2.5 12-6.5V26z" fill="#a0703f" />
+    <!-- cut face -->
+    <ellipse cx="32" cy="26" rx="12" ry="5" fill="#c08c52" />
+    <ellipse cx="32" cy="26" rx="5.5" ry="2.2" fill="none" stroke-width="2" />
+    <!-- roots flaring into the ground -->
+    <path d="M20 40c-3 1.5-5 3.5-6.5 6M44 40c3 1.5 5 3.5 6.5 6" fill="none" />
+  </g>
+</svg>

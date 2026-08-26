@@ -11,6 +11,13 @@ export type Video =
   | { kind: "mp4"; src: string; poster: string; title: string; caption?: string };
 
 export const site = {
+  /**
+   * Canonical origin, used for link previews, robots.txt, and the sitemap.
+   * Set NEXT_PUBLIC_SITE_URL in Vercel once the real domain is attached; the
+   * fallback is the domain on James's email address.
+   */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.atlanticlandcarellc.com",
+
   name: "Atlantic Landcare",
   legalName: "Atlantic Landcare LLC",
   descriptor: "Stump Grinding & Property Cleanups",
