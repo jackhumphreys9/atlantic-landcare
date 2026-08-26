@@ -29,8 +29,6 @@ export const site = {
   phoneHref: "+13025819172",
   email: "james@atlanticlandcarellc.com",
 
-  // TODO(James): confirm the exact towns to list — this is inferred from the
-  // reviews and photos, not from anything he told us directly.
   serviceArea: "Ocean Pines and the surrounding area",
   hours: "Mon–Sat, 7am–6pm",
 
