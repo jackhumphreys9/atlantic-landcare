@@ -80,8 +80,12 @@ function VideoCard({ video }: { video: Video }) {
 }
 
 export function VideoGallery() {
+  // Hides itself until James adds a video to site.config.ts. Add a YouTube id
+  // there and this section appears on its own.
+  if (videos.length === 0) return null;
+
   return (
-    <section id="work" className="py-24">
+    <section id="video" className="bg-sand-100 py-24">
       <div className="mx-auto max-w-6xl px-5">
         <h2 className="font-display text-3xl font-bold text-bark-900 sm:text-4xl">
           See the work

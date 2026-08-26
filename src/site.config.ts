@@ -1,8 +1,9 @@
 /**
  * Single source of truth for everything business-specific on the site.
  *
- * This is the file to edit when the owner wants to change a phone number, add a
- * testimonial, or swap in a new video. Nothing here requires touching a component.
+ * This is the file to edit when James wants to change a phone number, add a
+ * testimonial, or swap in new project photos. Nothing here requires touching a
+ * component.
  */
 
 export type Video =
@@ -10,115 +11,163 @@ export type Video =
   | { kind: "mp4"; src: string; poster: string; title: string; caption?: string };
 
 export const site = {
-  name: "Evergreen Landscaping",
-  tagline: "Yards worth coming home to.",
+  name: "Atlantic Landcare",
+  legalName: "Atlantic Landcare LLC",
+  descriptor: "Stump Grinding & Property Cleanups",
+  tagline: "Stumps gone. Property cleared.",
   description:
-    "Full-service landscape design, installation, and maintenance. Family owned and serving the local area for over a decade.",
+    "Owner-operated stump grinding and property cleanup. You deal with James from the first walkthrough to the last load hauled out.",
 
-  phone: "(555) 123-4567",
+  owner: {
+    name: "James Yates",
+    // Shown beside the headshot in the About section.
+    bio: "James runs Atlantic Landcare himself — he quotes the job, grinds the stumps, and cleans up the site. No crews to coordinate, no one to chase down for an answer, and the person who gave you the number is the person who shows up.",
+  },
+
+  phone: "(302) 581-9172",
   // Digits only — used for the tel: link so it dials correctly on mobile.
-  phoneHref: "+15551234567",
-  email: "hello@example.com",
+  phoneHref: "+13025819172",
+  email: "james@atlanticlandcarellc.com",
 
-  serviceArea: "Greater Springfield and surrounding towns",
-  hours: "Mon–Fri, 7am–5pm",
+  // TODO(James): confirm the exact towns to list — this is inferred from the
+  // reviews and photos, not from anything he told us directly.
+  serviceArea: "Ocean Pines and the surrounding area",
+  hours: "Mon–Sat, 7am–6pm",
 
   social: {
-    instagram: "https://instagram.com/",
+    // TODO(James): swap in the real Atlantic Landcare Facebook page URL.
     facebook: "https://facebook.com/",
   },
 
   /**
-   * Where contact-form submissions get emailed. Usually the owner's inbox.
+   * Where contact-form submissions get emailed.
    * Overridable without a code change via the CONTACT_TO_EMAIL env var.
    */
-  contactInbox: "owner@example.com",
+  contactInbox: "james@atlanticlandcarellc.com",
 } as const;
 
+/**
+ * TODO(James): confirm this list. Stump grinding and property cleanups come
+ * straight off the logo; the mulch bed and storm debris entries are inferred
+ * from the project photos and reviews. Delete anything he doesn't actually want
+ * to sell — the grid reflows on its own.
+ */
 export const services = [
   {
-    title: "Landscape Design",
+    title: "Stump Grinding",
     description:
-      "We plan the whole yard before a single shovel hits dirt — planting beds, hardscape, drainage, and how it will look in five years.",
-    icon: "design",
+      "Stumps ground below grade so you can plant, sod, or build over the top. One stump in a tight side yard or thirty across a lot — same machine, same result.",
+    icon: "stump",
   },
   {
-    title: "Installation & Hardscape",
+    title: "Property Cleanups",
     description:
-      "Patios, retaining walls, walkways, and planting. Built to drain properly and survive winter.",
-    icon: "hardscape",
+      "Overgrown lots cut back, brush and briars pulled out, debris hauled off. Good for rentals between tenants, listings before photos, and yards that got away from you.",
+    icon: "cleanup",
   },
   {
-    title: "Lawn Care & Maintenance",
+    title: "Storm Debris Removal",
     description:
-      "Mowing, fertilization, aeration, and seasonal cleanups on a schedule you don't have to think about.",
-    icon: "lawn",
+      "Downed limbs and leftover trunks cleared after a storm — including the stump the road crew left behind when they opened the street back up.",
+    icon: "storm",
   },
   {
-    title: "Irrigation",
+    title: "Mulch Beds & Edging",
     description:
-      "Sprinkler and drip system install, repair, and spring/fall service so nothing dries out or freezes.",
-    icon: "water",
+      "Fresh beds cut, edged, and mulched. Clean lines that hold their shape through the season instead of bleeding into the lawn.",
+    icon: "mulch",
   },
 ] as const;
 
+export type GalleryItem = {
+  title: string;
+  caption?: string;
+  /** Paths under /public. Both are shown side by side, labelled. */
+  before?: string;
+  after: string;
+};
+
 /**
- * Videos shown in the gallery.
+ * Project photos.
  *
- * YouTube is the recommended default — free, and it handles all the bandwidth.
- * Grab the id from the URL: youtube.com/watch?v=THIS_PART
+ * `before` is optional — an entry with only an `after` renders as a single
+ * full-width photo, which is right for finished work with no useful before shot.
  *
- * The `mp4` kind exists for short clips you host yourself, but read the hosting
- * note in the README before using it — video bandwidth is the one thing that can
- * turn a free Vercel project into a bill.
+ * TODO(James): confirm the before/after pairings below are actually the same
+ * job. They were matched by eye from the houses and tree lines in the photos.
  */
-export const videos: Video[] = [
+export const gallery: GalleryItem[] = [
   {
-    kind: "youtube",
-    id: "dQw4w9WgXcQ",
-    title: "Full backyard transformation",
-    caption: "A sloped, unusable back lot rebuilt into a terraced patio and lawn.",
+    title: "Front yard stump removal",
+    caption:
+      "Several trunks cut flush and left behind. Ground out below grade and the yard graded back flat.",
+    before: "/gallery/stump-front-before.jpg",
+    after: "/gallery/stump-front-after.jpg",
   },
   {
-    kind: "youtube",
-    id: "dQw4w9WgXcQ",
-    title: "Retaining wall build, start to finish",
-    caption: "Three days of block work compressed into two minutes.",
+    title: "Overgrown lot cleared",
+    caption:
+      "Years of brush and volunteer growth taken back to open ground, with everything hauled off site.",
+    before: "/gallery/lot-clearing-before.jpg",
+    after: "/gallery/lot-clearing-after.jpg",
   },
   {
-    kind: "youtube",
-    id: "dQw4w9WgXcQ",
-    title: "Spring cleanup on a half-acre",
-    caption: "What a seasonal maintenance visit actually looks like.",
+    title: "New bed with brick edging",
+    caption: "Bed cut fresh, planted, edged in brick, and finished in black mulch.",
+    after: "/gallery/mulch-bed-after.jpg",
+  },
+  {
+    title: "Grinding in progress",
+    caption: "The machine that does the work, mid-job.",
+    after: "/gallery/grinder-at-work.jpg",
   },
 ];
 
-export const testimonials = [
+/**
+ * Facebook recommendations, transcribed from the review screenshots.
+ *
+ * Names are intentionally omitted — the site shows only that each one is a
+ * Facebook recommendation. Nothing here should identify the reviewer.
+ */
+export type Testimonial = {
+  quote: string;
+  /** Date shown on the Facebook post. No year — Facebook omits it for the current year. */
+  date: string;
+  /** Exactly one may be featured; it renders full width above the others. */
+  featured?: boolean;
+};
+
+export const testimonials: Testimonial[] = [
   {
     quote:
-      "They regraded our whole backyard so it finally drains, and then made it look good on top of that. First spring in six years without standing water.",
-    author: "Dana R.",
-    location: "Springfield",
+      "After the storm earlier this year, I had a down tree. Ocean Pines cleared the tree from the road, but I still had a stump to deal with. James stopped over twice as he was very willing to look for work and do the job. The first time he stopped over I still felt like I could do the stump and dirt by myself but by the second time, I realized that I needed to look for somebody else. He stopped over the second time and we agreed on the job. He gave me a very reasonable number and did all the work as agreed in a timely fashion. He exemplifies the exact working attitude that a young entrepreneur should have in contrast of the usual contractors in this area. I would highly recommend him as from start to finish was a seamless and painless transaction.",
+    date: "Jun 17",
+    featured: true,
   },
   {
     quote:
-      "Showed up when they said, cleaned up every day, and the patio came in under what two other companies quoted. I've already recommended them twice.",
-    author: "Marcus T.",
-    location: "Fairview",
+      "James ground down 30 stumps on my property on one of the hottest weekends of the summer. He is professional and does an outstanding job. I highly recommend him.",
+    date: "Jul 19",
   },
   {
     quote:
-      "We've been on their maintenance plan for three years. I genuinely never think about the yard anymore, which is exactly what I was paying for.",
-    author: "Priya S.",
-    location: "Northgate",
+      "Excellent service, James was prompt, polite & a very hard worker, would recommend for any landscaping job!",
+    date: "Jul 13",
   },
 ];
+
+/**
+ * Videos. Empty for now — the gallery section hides itself entirely until
+ * there's at least one. Add a YouTube id and it appears automatically:
+ *   { kind: "youtube", id: "AbCdEf12345", title: "Stump grind, start to finish" }
+ */
+export const videos: Video[] = [];
 
 /** Options in the contact form's "what do you need?" dropdown. */
 export const inquiryTypes = [
-  "Landscape design",
-  "Installation or hardscape",
-  "Lawn care & maintenance",
-  "Irrigation",
+  "Stump grinding",
+  "Property cleanup",
+  "Storm debris removal",
+  "Mulch beds & edging",
   "Something else",
 ] as const;

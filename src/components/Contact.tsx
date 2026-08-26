@@ -7,11 +7,12 @@ export function Contact() {
       <div className="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1fr_1.2fr]">
         <div>
           <h2 className="font-display text-3xl font-bold text-bark-900 sm:text-4xl">
-            Let&apos;s talk about your yard
+            Get a free quote
           </h2>
           <p className="mt-4 leading-relaxed text-bark-700">
-            Tell us what you have in mind and we&apos;ll come out for a free walkthrough
-            and estimate. No pressure, no charge.
+            Tell {site.owner.name.split(" ")[0]} what you&apos;re dealing with and
+            he&apos;ll come out, look at it in person, and give you a number. No charge
+            for the visit and no pressure after it.
           </p>
 
           <dl className="mt-10 space-y-6 text-sm">

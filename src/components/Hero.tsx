@@ -15,8 +15,8 @@ export function Hero() {
       <div aria-hidden className="absolute inset-0 bg-bark-900/40" />
 
       <div className="relative mx-auto max-w-6xl px-5 py-28 sm:py-36">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-leaf-500">
-          {site.serviceArea}
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sun-500">
+          {site.descriptor} · {site.serviceArea}
         </p>
         <h1 className="mt-5 max-w-3xl font-display text-4xl font-bold leading-[1.1] text-white sm:text-6xl">
           {site.tagline}

@@ -2,17 +2,31 @@ import { services } from "@/site.config";
 
 /** Simple line icons, keyed by the `icon` field in site.config.ts. */
 const icons: Record<string, React.ReactNode> = {
-  design: (
-    <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6" />
+  stump: (
+    <>
+      <ellipse cx="12" cy="8" rx="5" ry="2.5" />
+      <path d="M7 8v6c0 1.9 2.2 3.4 5 3.4s5-1.5 5-3.4V8" />
+      <path d="M7 14c-1.5.8-2.5 1.9-3 3M17 14c1.5.8 2.5 1.9 3 3M3 21h18" />
+    </>
   ),
-  hardscape: (
-    <path d="M3 8h18M3 14h18M3 4h18v16H3zM9 4v4M15 8v6M9 14v6" />
+  cleanup: (
+    <>
+      <path d="M12 3v8M6 11h12" />
+      <path d="M6 11v5M9.6 11v5M13.2 11v5M16.8 11v5" />
+      <path d="M3 21h18" />
+    </>
   ),
-  lawn: (
-    <path d="M12 21V9M12 9c0-3 2-5 5-5 0 3-2 5-5 5zM12 12c0-3-2-5-5-5 0 3 2 5 5 5zM4 21h16" />
+  storm: (
+    <>
+      <path d="M13 2 5 13h6l-2 9 9-12h-6z" />
+    </>
   ),
-  water: (
-    <path d="M12 3s6 6.5 6 10.5A6 6 0 0 1 6 13.5C6 9.5 12 3 12 3z" />
+  mulch: (
+    <>
+      <path d="M3 10c3-2 6-2 9 0s6 2 9 0" />
+      <path d="M3 15c3-2 6-2 9 0s6 2 9 0" />
+      <path d="M3 20h18" />
+    </>
   ),
 };
 
@@ -24,7 +38,7 @@ export function Services() {
           What we do
         </h2>
         <p className="mt-3 max-w-xl text-bark-700">
-          From a single overgrown bed to a full property rebuild.
+          One stubborn stump or a whole lot grown over — same phone number either way.
         </p>
 
         <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
