@@ -6,9 +6,20 @@
  * component.
  */
 
-export type Video =
-  | { kind: "youtube"; id: string; title: string; caption?: string }
-  | { kind: "mp4"; src: string; poster: string; title: string; caption?: string };
+export type Video = {
+  title: string;
+  caption?: string;
+  /**
+   * Vertical sources — YouTube Shorts, phone footage — get a 9:16 frame at a
+   * constrained width instead of the default 16:9.
+   */
+  vertical?: boolean;
+  /**
+   * Poster image shown before play. Optional for YouTube, where it defaults to
+   * the video's own thumbnail; required for mp4, which has none.
+   */
+  poster?: string;
+} & ({ kind: "youtube"; id: string } | { kind: "mp4"; src: string; poster: string });
 
 export const site = {
   /**
@@ -201,21 +212,31 @@ export const testimonials: Testimonial[] = [
 ];
 
 /**
- * Videos. The section hides itself entirely while this array is empty, so the
- * site is complete without it.
+ * Videos, hosted on YouTube so the files stay out of the repo. The section
+ * hides itself entirely while this array is empty.
  *
- * The two before/after clips are waiting in assets-raw/ (gitignored). They're
- * going up on YouTube rather than being served from here — 95MB of video in the
- * repo would live in git history permanently. Once they're uploaded, take the
- * id out of each URL and add an entry:
+ * Both of these are Shorts, so they're vertical. A Short embeds through the
+ * ordinary /embed/<id> player — the only thing that changes is the frame shape.
  *
- *   // youtube.com/watch?v=AbCdEf12345
- *   { kind: "youtube", id: "AbCdEf12345", title: "Stump grind, start to finish" }
- *
- * The gallery loads a thumbnail and only mounts the player on click, so extra
- * videos cost nothing until someone presses play.
+ * No `poster` set on purpose. YouTube crops a Short's thumbnail to 16:9, but
+ * cropping that back to portrait lands on the middle of the original vertical
+ * frame at close to full resolution, so it stays sharp and, unlike one of our
+ * own photos, can't end up showing a different property than the video.
  */
-export const videos: Video[] = [];
+export const videos: Video[] = [
+  {
+    kind: "youtube",
+    id: "59cys31azag",
+    vertical: true,
+    title: "Yard cleanup, start to finish",
+  },
+  {
+    kind: "youtube",
+    id: "8UAL-Qmer3k",
+    vertical: true,
+    title: "Another cleanup, start to finish",
+  },
+];
 
 /** Options in the contact form's "what do you need?" dropdown. */
 export const inquiryTypes = [

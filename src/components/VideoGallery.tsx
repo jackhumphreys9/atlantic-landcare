@@ -6,15 +6,18 @@ import { videos, type Video } from "@/site.config";
 /**
  * Videos load as a "facade": we render a thumbnail and only mount the real
  * player once someone clicks. A YouTube iframe pulls in roughly a megabyte of
- * script, so embedding three of them directly would dominate the page's load
- * time for visitors who never press play.
+ * script, so embedding several directly would dominate the page's load time for
+ * visitors who never press play.
  */
 function VideoCard({ video }: { video: Video }) {
   const [playing, setPlaying] = useState(false);
 
+  // Shorts and other phone footage are 9:16; anything else is treated as 16:9.
+  const frame = video.vertical ? "aspect-[9/16]" : "aspect-video";
+
   if (playing) {
     return (
-      <div className="aspect-video overflow-hidden rounded-2xl bg-black">
+      <div className={`${frame} overflow-hidden rounded-2xl bg-black`}>
         {video.kind === "youtube" ? (
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1`}
@@ -41,16 +44,17 @@ function VideoCard({ video }: { video: Video }) {
   }
 
   const thumbnail =
-    video.kind === "youtube"
+    video.poster ??
+    (video.kind === "youtube"
       ? `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`
-      : video.poster;
+      : video.poster);
 
   return (
     <button
       type="button"
       onClick={() => setPlaying(true)}
       aria-label={`Play video: ${video.title}`}
-      className="group relative block aspect-video w-full overflow-hidden rounded-2xl bg-bark-700"
+      className={`group relative block ${frame} w-full overflow-hidden rounded-2xl bg-bark-700`}
     >
       {/*
        * Plain <img> rather than next/image: these are remote thumbnails that
@@ -83,8 +87,7 @@ function VideoCard({ video }: { video: Video }) {
 }
 
 export function VideoGallery() {
-  // Hides itself until James adds a video to site.config.ts. Add a YouTube id
-  // there and this section appears on its own.
+  // Hides itself until there's a video in site.config.ts.
   if (videos.length === 0) return null;
 
   return (
@@ -97,11 +100,13 @@ export function VideoGallery() {
           Real projects, start to finish. No stock footage.
         </p>
 
-        <div className="mt-14 grid gap-8 md:grid-cols-2">
-          {videos.map((video, index) => (
+        <div className="mt-14 grid justify-items-center gap-10 sm:grid-cols-2">
+          {videos.map((video) => (
             <figure
-              key={`${video.title}-${index}`}
-              className={index === 0 ? "md:col-span-2" : undefined}
+              key={video.title}
+              // A 9:16 frame at full column width would be enormous on a wide
+              // screen, so portrait videos get capped and centred.
+              className={video.vertical ? "w-full max-w-[340px]" : "w-full"}
             >
               <VideoCard video={video} />
               <figcaption className="mt-4">
