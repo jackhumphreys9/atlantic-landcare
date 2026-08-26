@@ -50,6 +50,9 @@ export const site = {
 
   social: {
     facebook: "https://www.facebook.com/AtlanticLandcareLLC",
+    /** Deep link straight to the reviews tab, used by the reviews button. */
+    facebookReviews:
+      "https://www.facebook.com/AtlanticLandcareLLC/reviews/?id=61589348813099&sk=reviews",
   },
 
   /**
@@ -170,37 +173,6 @@ export type Testimonial = {
   /** Exactly one may be featured; it renders full width above the others. */
   featured?: boolean;
 };
-
-/**
- * Facebook post embeds, taken from the "Embed" option on each recommendation.
- *
- * These render Facebook's own card — which includes the reviewer's name and
- * profile photo. That's inherent to the plugin; there's no parameter to hide
- * it. Empty this array and the section falls back to the anonymised text cards
- * built from `testimonials` below.
- *
- * `height` is what Facebook's embed code specified at 500px wide. The component
- * scales the whole frame down proportionally on narrower screens, so these two
- * numbers have to stay paired.
- */
-export type FacebookEmbed = { src: string; height: number };
-
-export const EMBED_WIDTH = 500;
-
-export const facebookEmbeds: FacebookEmbed[] = [
-  {
-    src: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fchris.stevenson.5203%2Fposts%2Fpfbid0R6BkAMY5SDNhbjz9epoxyZa71dFNT823JrZ3m2bEZ3rQZ7bi2D2ytmiXZToquHn8l&show_text=true&width=500",
-    height: 340,
-  },
-  {
-    src: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Falfred.rayne%2Fposts%2Fpfbid035xAxPzcSdEagfTv48bUo3NjbpvnDkALAPnRSfRJMygcxdXu4K2QkRCvAtTx3R8Fbl&show_text=true&width=500",
-    height: 188,
-  },
-  {
-    src: "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Flynn.barrick.5%2Fposts%2Fpfbid0iurpQc6vTQLr6LVwwmCc4jsEqEtXSJuABUFErpicaJi43YvJpyxJtHioqjaXEHAil&show_text=true&width=500",
-    height: 169,
-  },
-];
 
 export const testimonials: Testimonial[] = [
   {

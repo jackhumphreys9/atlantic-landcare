@@ -126,31 +126,24 @@ handheld from different angles and wouldn't line up in a slider.
 
 ### Reviews
 
-The section renders **live Facebook post embeds**, listed in `facebookEmbeds`
-in `site.config.ts`. To add another, use "Embed" on the Facebook post and copy
-the plugin URL and height out of the snippet it gives you.
+The three Facebook recommendations are transcribed into the `testimonials` array
+in `site.config.ts` and rendered as styled text cards. **Reviewer names are
+deliberately omitted** — each card shows only the Facebook mark, "Recommended on
+Facebook", and the post date. Set `featured: true` on one to render it
+full-width above the others.
 
-Two things worth knowing about the embeds:
+Underneath them, a link points at the Facebook reviews tab
+(`site.social.facebookReviews`) for anyone who wants to verify them or read
+more.
 
-- **They show the reviewer's name and profile photo.** That's Facebook's card
-  and there's no parameter to hide it.
-- **If a post is deleted or its privacy changes, the embed silently goes
-  blank.** Nothing on our side can detect that, so it's worth a look at the
-  reviews section after any deploy.
+One transcription note: the first review reads "I still had a stomp to deal
+with" on Facebook. That's an obvious typo for "stump" and it's corrected on the
+site. Everything else is verbatim.
 
-If either becomes a problem, **empty the `facebookEmbeds` array**. The section
-falls back to anonymised text cards built from the `testimonials` array — same
-three reviews, transcribed, showing only the Facebook mark, "Recommended on
-Facebook", and the date. Those never break and load instantly. Set
-`featured: true` on one to render it full-width above the others.
-
-One transcription note on the fallback text: the first review reads "I still had
-a stomp to deal with" on Facebook. That's an obvious typo for "stump" and it's
-corrected. Everything else is verbatim.
-
-The embeds are mounted only when they scroll near the viewport, and the whole
-frame is scaled down proportionally on narrow screens — Facebook renders at a
-fixed width and doesn't reflow, so without that it would be clipped on a phone.
+Live Facebook post embeds were tried and reverted — they drag Facebook's own
+styling onto the page, show reviewer names and photos, load slowly, and go blank
+if a post is ever deleted. The implementation is in git history at commit
+`c44e946` if it's ever wanted back.
 
 ### Adding video
 

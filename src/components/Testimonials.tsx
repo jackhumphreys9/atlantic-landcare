@@ -1,5 +1,4 @@
-import { facebookEmbeds, site, testimonials } from "@/site.config";
-import { FacebookPost } from "@/components/FacebookPost";
+import { site, testimonials } from "@/site.config";
 
 /** Facebook's "f" mark, in their brand blue. */
 function FacebookMark({ className }: { className?: string }) {
@@ -38,20 +37,6 @@ function QuoteMark() {
   );
 }
 
-function SeeAllLink() {
-  return (
-    <a
-      href={site.social.facebook}
-      target="_blank"
-      rel="noreferrer"
-      className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-leaf-600 hover:underline"
-    >
-      <FacebookMark className="h-4 w-4" />
-      See all reviews on Facebook
-    </a>
-  );
-}
-
 export function Testimonials() {
   const featured = testimonials.find((t) => t.featured);
   const rest = testimonials.filter((t) => t !== featured);
@@ -66,38 +51,7 @@ export function Testimonials() {
           Straight from the {site.name} Facebook page.
         </p>
 
-        {/*
-         * Live Facebook embeds when they're configured, otherwise the
-         * anonymised text cards. See the note on `facebookEmbeds` in
-         * site.config.ts — the embeds show reviewer names and photos.
-         */}
-        {facebookEmbeds.length > 0 ? (
-          <>
-            <div className="mt-14 grid justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {facebookEmbeds.map((embed, index) => (
-                <FacebookPost key={embed.src} embed={embed} index={index} />
-              ))}
-            </div>
-            <SeeAllLink />
-          </>
-        ) : (
-          <TextTestimonials featured={featured} rest={rest} />
-        )}
-      </div>
-    </section>
-  );
-}
-
-function TextTestimonials({
-  featured,
-  rest,
-}: {
-  featured?: (typeof testimonials)[number];
-  rest: typeof testimonials;
-}) {
-  return (
-    <>
-      {featured && (
+        {featured && (
           <figure className="mt-14 rounded-2xl bg-white p-8 shadow-sm sm:p-10">
             <QuoteMark />
             <blockquote className="mt-5 text-lg leading-relaxed text-bark-700">
@@ -125,7 +79,17 @@ function TextTestimonials({
             </figure>
           ))}
         </div>
-      <SeeAllLink />
-    </>
+
+        <a
+          href={site.social.facebookReviews}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-leaf-600 hover:underline"
+        >
+          <FacebookMark className="h-4 w-4" />
+          See all reviews on Facebook
+        </a>
+      </div>
+    </section>
   );
 }
