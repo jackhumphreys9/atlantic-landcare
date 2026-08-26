@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/*
+ * Brand palette. Change these six values and the whole site re-skins.
+ * Deliberately light-only — a landscaping site is all photography and green,
+ * and an auto dark mode fights both.
+ */
+@theme {
+  --color-bark-900: #1c2b21;
+  --color-bark-700: #2f4636;
+  --color-leaf-600: #3f7d4e;
+  --color-leaf-500: #4f9a60;
+  --color-leaf-100: #e8f2e9;
+  --color-sand-50: #faf8f4;
+  --color-sand-100: #f1ece3;
+  --color-sand-300: #d9d1c2;
+
+  --font-sans: var(--font-sans-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-heading), Georgia, serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-sand-50);
+    color: var(--color-bark-900);
+  }
+
+  /* The whole page is one document of anchor links, so offset for the sticky header. */
+  :target {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@layer utilities {
+  /*
+   * Honeypot field: present in the DOM and focusable by scripted bots, but
+   * removed from the visual and accessibility trees for real users.
+   */
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
