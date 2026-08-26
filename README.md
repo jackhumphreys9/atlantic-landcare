@@ -95,15 +95,14 @@ videos cost nothing until someone presses play.
 service cards, the gallery, and the reviews. You should rarely need to open a
 component to update copy.
 
-There are three `TODO(James)` comments in that file marking things that still
+There are two `TODO(James)` comments in that file marking things that still
 need his eyes:
 
 1. **Service descriptions** — the seven service titles are his, but the sentence
    under each one was drafted here. Worth reading for anything that oversells.
 2. **Gallery captions** — written from the photos, not from knowing the jobs.
-3. **Facebook URL** — still a placeholder, used in the footer link.
 
-The service area and service list are confirmed.
+Service area, service list, and the Facebook page URL are confirmed.
 
 The contact form's dropdown is derived from the `services` array, so adding or
 removing a service updates the form automatically.
@@ -127,14 +126,31 @@ handheld from different angles and wouldn't line up in a slider.
 
 ### Reviews
 
-The three Facebook recommendations are transcribed in `site.config.ts`.
-**Reviewer names are deliberately omitted** — each card shows only the Facebook
-mark, "Recommended on Facebook", and the post date. Set `featured: true` on one
-review to render it full-width above the others.
+The section renders **live Facebook post embeds**, listed in `facebookEmbeds`
+in `site.config.ts`. To add another, use "Embed" on the Facebook post and copy
+the plugin URL and height out of the snippet it gives you.
 
-One transcription note: the first review reads "I still had a stomp to deal
-with" on Facebook. That's an obvious typo for "stump" and it's corrected on the
-site. Everything else is verbatim.
+Two things worth knowing about the embeds:
+
+- **They show the reviewer's name and profile photo.** That's Facebook's card
+  and there's no parameter to hide it.
+- **If a post is deleted or its privacy changes, the embed silently goes
+  blank.** Nothing on our side can detect that, so it's worth a look at the
+  reviews section after any deploy.
+
+If either becomes a problem, **empty the `facebookEmbeds` array**. The section
+falls back to anonymised text cards built from the `testimonials` array — same
+three reviews, transcribed, showing only the Facebook mark, "Recommended on
+Facebook", and the date. Those never break and load instantly. Set
+`featured: true` on one to render it full-width above the others.
+
+One transcription note on the fallback text: the first review reads "I still had
+a stomp to deal with" on Facebook. That's an obvious typo for "stump" and it's
+corrected. Everything else is verbatim.
+
+The embeds are mounted only when they scroll near the viewport, and the whole
+frame is scaled down proportionally on narrow screens — Facebook renders at a
+fixed width and doesn't reflow, so without that it would be clipped on a phone.
 
 ### Adding video
 

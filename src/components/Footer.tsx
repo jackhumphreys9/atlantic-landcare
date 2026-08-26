@@ -37,7 +37,6 @@ export function Footer() {
                 {site.email}
               </a>
             </li>
-            <li>{site.hours}</li>
           </ul>
         </div>
 

@@ -39,10 +39,6 @@ export function Contact() {
               </dd>
             </div>
             <div>
-              <dt className="font-semibold text-bark-900">Hours</dt>
-              <dd className="mt-1 text-bark-700">{site.hours}</dd>
-            </div>
-            <div>
               <dt className="font-semibold text-bark-900">Service area</dt>
               <dd className="mt-1 flex flex-wrap gap-x-2 gap-y-1 text-bark-700">
                 {site.serviceArea.map((town, index) => (
