@@ -44,7 +44,18 @@ export function Contact() {
             </div>
             <div>
               <dt className="font-semibold text-bark-900">Service area</dt>
-              <dd className="mt-1 text-bark-700">{site.serviceArea}</dd>
+              <dd className="mt-1 flex flex-wrap gap-x-2 gap-y-1 text-bark-700">
+                {site.serviceArea.map((town, index) => (
+                  <span key={town}>
+                    {town}
+                    {index < site.serviceArea.length - 1 && (
+                      <span aria-hidden className="ml-2 text-sand-300">
+                        ·
+                      </span>
+                    )}
+                  </span>
+                ))}
+              </dd>
             </div>
           </dl>
         </div>

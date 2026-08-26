@@ -29,7 +29,25 @@ export const site = {
   phoneHref: "+13025819172",
   email: "james@atlanticlandcarellc.com",
 
-  serviceArea: "Ocean Pines and the surrounding area",
+  /** Short form for the hero, where the full town list won't fit. */
+  serviceAreaSummary: "Coastal Maryland & Delaware",
+
+  /**
+   * Grouped by state for readability rather than kept in the order they were
+   * given. The Maryland towns had their state added for clarity.
+   */
+  serviceArea: [
+    "Berlin, MD",
+    "Ocean Pines, MD",
+    "Ocean City, MD",
+    "West Ocean City, MD",
+    "Bishopville, MD",
+    "Snow Hill, MD",
+    "Selbyville, DE",
+    "Millsboro, DE",
+    "Ocean View, DE",
+  ],
+
   hours: "Mon–Sat, 7am–6pm",
 
   social: {
@@ -45,35 +63,55 @@ export const site = {
 } as const;
 
 /**
- * TODO(James): confirm this list. Stump grinding and property cleanups come
- * straight off the logo; the mulch bed and storm debris entries are inferred
- * from the project photos and reviews. Delete anything he doesn't actually want
- * to sell — the grid reflows on its own.
+ * The service list James supplied. Titles are his; the descriptions underneath
+ * were drafted here.
+ *
+ * TODO(James): read the descriptions and correct anything that oversells or
+ * misdescribes what's actually offered. The grid reflows on its own, so
+ * services can be added or removed freely.
  */
 export const services = [
   {
     title: "Stump Grinding",
     description:
-      "Stumps ground below grade so you can plant, sod, or build over the top. One stump in a tight side yard or thirty across a lot — same machine, same result.",
+      "Stumps ground below grade so you can plant, sod, or build over the top. One stump in a tight side yard or thirty across a lot.",
     icon: "stump",
   },
   {
-    title: "Property Cleanups",
+    title: "Landscape Design",
     description:
-      "Overgrown lots cut back, brush and briars pulled out, debris hauled off. Good for rentals between tenants, listings before photos, and yards that got away from you.",
-    icon: "cleanup",
+      "Planning the space before anything goes in the ground — beds, borders, and how it will read once everything fills in.",
+    icon: "design",
   },
   {
-    title: "Storm Debris Removal",
+    title: "Brush Clearing",
     description:
-      "Downed limbs and leftover trunks cleared after a storm — including the stump the road crew left behind when they opened the street back up.",
+      "Overgrown scrub, briars, and volunteer growth cut back to open, usable ground.",
+    icon: "brush",
+  },
+  {
+    title: "Storm Debris Cleanup",
+    description:
+      "Downed limbs and leftover trunks cleared after a storm — including the stump the road crew leaves behind.",
     icon: "storm",
   },
   {
-    title: "Mulch Beds & Edging",
+    title: "Fall Cleanup",
     description:
-      "Fresh beds cut, edged, and mulched. Clean lines that hold their shape through the season instead of bleeding into the lawn.",
-    icon: "mulch",
+      "Leaves cleared, spent growth cut back, and beds put to bed before winter sets in.",
+    icon: "leaves",
+  },
+  {
+    title: "Garden Bed Maintenance",
+    description:
+      "Beds edged, weeded, and re-mulched so the lines stay sharp through the season instead of bleeding into the lawn.",
+    icon: "beds",
+  },
+  {
+    title: "Power Washing",
+    description:
+      "Siding, decks, patios, and walkways washed back toward their original color.",
+    icon: "wash",
   },
 ] as const;
 
@@ -156,37 +194,24 @@ export const testimonials: Testimonial[] = [
 ];
 
 /**
- * Videos. The section hides itself entirely when this array is empty.
+ * Videos. The section hides itself entirely while this array is empty, so the
+ * site is complete without it.
  *
- * These two are served straight out of public/ and are ~95MB combined. Nothing
- * downloads until a visitor actually presses play (the gallery shows a poster
- * image and only mounts the player on click), but see the hosting note in the
- * README before committing them — putting video in the repo is the one decision
- * here that's genuinely hard to undo.
+ * The two before/after clips are waiting in assets-raw/ (gitignored). They're
+ * going up on YouTube rather than being served from here — 95MB of video in the
+ * repo would live in git history permanently. Once they're uploaded, take the
+ * id out of each URL and add an entry:
  *
- * TODO(James): retitle these — the captions are placeholders, written without
- * having watched the footage.
+ *   // youtube.com/watch?v=AbCdEf12345
+ *   { kind: "youtube", id: "AbCdEf12345", title: "Stump grind, start to finish" }
+ *
+ * The gallery loads a thumbnail and only mounts the player on click, so extra
+ * videos cost nothing until someone presses play.
  */
-export const videos: Video[] = [
-  {
-    kind: "mp4",
-    src: "/before-after-1.mp4",
-    poster: "/after-1.jpg",
-    title: "Bed clearing, start to finish",
-  },
-  {
-    kind: "mp4",
-    src: "/before-after-2.mp4",
-    poster: "/after-2.jpg",
-    title: "Stump grinding, start to finish",
-  },
-];
+export const videos: Video[] = [];
 
 /** Options in the contact form's "what do you need?" dropdown. */
 export const inquiryTypes = [
-  "Stump grinding",
-  "Property cleanup",
-  "Storm debris removal",
-  "Mulch beds & edging",
+  ...services.map((service) => service.title),
   "Something else",
 ] as const;

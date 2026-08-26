@@ -43,7 +43,11 @@ export function Footer() {
 
         <div className="text-sm">
           <p className="font-semibold text-white">Service area</p>
-          <p className="mt-3 text-sand-300">{site.serviceArea}</p>
+          <ul className="mt-3 space-y-1 text-sand-300">
+            {site.serviceArea.map((town) => (
+              <li key={town}>{town}</li>
+            ))}
+          </ul>
           <a
             href={site.social.facebook}
             className="mt-4 inline-block text-sand-300 hover:text-sun-500"

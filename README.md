@@ -67,24 +67,26 @@ reviewer names and profile photos, and the site shows the reviews anonymously.
 | `before-2.jpg` / `after-2.jpg` | Grinder mid-job → lot graded flat |
 | `before-3.jpg` / `after-3.jpg` | Cut trunks → ground flat to lawn height |
 
-## ⚠️ Video hosting decision
+## 📹 Video — waiting on YouTube uploads
 
-`public/before-after-1.mp4` (28MB) and `before-after-2.mp4` (62MB) are wired
-into the gallery but **not committed**, pending a call on where they should
-live.
+The two before/after clips are in `assets-raw/` (28MB and 62MB). They're
+**deliberately not in the repo**: 95MB of video would live in git history
+permanently, and every clone and Vercel build would pay for it.
 
-The gallery shows a poster image and only mounts the player on click, so nobody
-downloads 62MB just by visiting. The concern is the repo: committing 95MB of
-video writes it into git history permanently, and every clone and every Vercel
-build pays for it from then on. Removing it later means rewriting history.
+They're going on YouTube instead. Once uploaded, take the id out of each URL
+and add an entry to the `videos` array in `src/site.config.ts`:
 
-**Recommended:** upload both to YouTube (unlisted works) and switch the entries
-in `site.config.ts` to `kind: "youtube"`. Free bandwidth, adaptive quality on
-slow connections, and nothing heavy in the repo.
+```ts
+// youtube.com/watch?v=AbCdEf12345
+{ kind: "youtube", id: "AbCdEf12345", title: "Stump grind, start to finish" }
+```
 
-If you'd rather self-host, [Cloudflare Stream](https://www.cloudflare.com/products/cloudflare-stream/)
-is about $5/month. Committing them to the repo works too — just know it's the
-one choice here that's genuinely hard to undo.
+The video section hides itself while that array is empty, so the site is
+complete and deployable without it. The three before/after photo pairs already
+carry the story.
+
+The gallery loads a thumbnail and only mounts the player on click, so extra
+videos cost nothing until someone presses play.
 
 ## Editing the content
 
@@ -93,14 +95,18 @@ one choice here that's genuinely hard to undo.
 service cards, the gallery, and the reviews. You should rarely need to open a
 component to update copy.
 
-There are three `TODO(James)` comments in that file marking things that were
-inferred rather than confirmed:
+There are three `TODO(James)` comments in that file marking things that still
+need his eyes:
 
-1. **Service area** — "Ocean Pines and the surrounding area" is a guess from the
-   reviews and photos.
-2. **Service list** — stump grinding and property cleanups come off the logo;
-   storm debris and mulch beds were inferred from photos and reviews.
-3. **Facebook URL** — currently a placeholder, used in the footer link.
+1. **Service descriptions** — the seven service titles are his, but the sentence
+   under each one was drafted here. Worth reading for anything that oversells.
+2. **Gallery captions** — written from the photos, not from knowing the jobs.
+3. **Facebook URL** — still a placeholder, used in the footer link.
+
+The service area and service list are confirmed.
+
+The contact form's dropdown is derived from the `services` array, so adding or
+removing a service updates the form automatically.
 
 ### Adding a before/after pair
 
