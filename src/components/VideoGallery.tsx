@@ -30,6 +30,9 @@ function VideoCard({ video }: { video: Video }) {
             controls
             autoPlay
             playsInline
+            // Only reached after a click, but keeps browsers from prefetching
+            // the file if this ever renders eagerly.
+            preload="none"
             className="h-full w-full"
           />
         )}

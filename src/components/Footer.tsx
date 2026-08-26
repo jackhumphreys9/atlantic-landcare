@@ -12,7 +12,7 @@ export function Footer() {
            */}
           <div className="relative h-32 w-32 overflow-hidden rounded-xl bg-sand-100">
             <Image
-              src="/logo.png"
+              src="/logo.jpg"
               alt={`${site.name} logo`}
               fill
               sizes="128px"

@@ -30,6 +30,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# Original camera/screenshot files. `npm run prepare:images` crops and
+# compresses these into public/ — only the processed versions get committed.
+/assets-raw
+
 # env files (can opt-in for committing if needed)
 .env*
 # ...but the template has no secrets in it and should be committed.

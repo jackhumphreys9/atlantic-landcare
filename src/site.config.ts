@@ -90,36 +90,37 @@ export type GalleryItem = {
 /**
  * Project photos.
  *
- * `before` is optional — an entry with only an `after` renders as a single
- * full-width photo, which is right for finished work with no useful before shot.
+ * Source files live in assets-raw/ (gitignored). `npm run prepare:images` crops
+ * the black bars off the phone screenshots, shrinks them, and writes the
+ * versions referenced here into public/.
  *
- * TODO(James): confirm the before/after pairings below are actually the same
- * job. They were matched by eye from the houses and tree lines in the photos.
+ * `before` is optional — an entry with only an `after` renders as a single
+ * wide photo, which is right for finished work with no useful before shot.
+ *
+ * TODO(James): the titles and captions below were written from the photos.
+ * Correct anything that misdescribes the actual job.
  */
 export const gallery: GalleryItem[] = [
   {
-    title: "Front yard stump removal",
+    title: "Overgrown corner to finished bed",
     caption:
-      "Several trunks cut flush and left behind. Ground out below grade and the yard graded back flat.",
-    before: "/gallery/stump-front-before.jpg",
-    after: "/gallery/stump-front-after.jpg",
+      "Scrub and volunteer growth cleared out, then replanted, edged in brick, and finished in black mulch.",
+    before: "/before-1.jpg",
+    after: "/after-1.jpg",
   },
   {
-    title: "Overgrown lot cleared",
+    title: "Stump ground out, lot graded flat",
     caption:
-      "Years of brush and volunteer growth taken back to open ground, with everything hauled off site.",
-    before: "/gallery/lot-clearing-before.jpg",
-    after: "/gallery/lot-clearing-after.jpg",
+      "A trunk and full root flare ground below grade, then the whole area raked level and cleaned up.",
+    before: "/before-2.jpg",
+    after: "/after-2.jpg",
   },
   {
-    title: "New bed with brick edging",
-    caption: "Bed cut fresh, planted, edged in brick, and finished in black mulch.",
-    after: "/gallery/mulch-bed-after.jpg",
-  },
-  {
-    title: "Grinding in progress",
-    caption: "The machine that does the work, mid-job.",
-    after: "/gallery/grinder-at-work.jpg",
+    title: "Front yard stumps removed",
+    caption:
+      "Trunks cut flush and left behind by the tree crew, ground out and levelled back to lawn height.",
+    before: "/before-3.jpg",
+    after: "/after-3.jpg",
   },
 ];
 
@@ -157,11 +158,31 @@ export const testimonials: Testimonial[] = [
 ];
 
 /**
- * Videos. Empty for now — the gallery section hides itself entirely until
- * there's at least one. Add a YouTube id and it appears automatically:
- *   { kind: "youtube", id: "AbCdEf12345", title: "Stump grind, start to finish" }
+ * Videos. The section hides itself entirely when this array is empty.
+ *
+ * These two are served straight out of public/ and are ~95MB combined. Nothing
+ * downloads until a visitor actually presses play (the gallery shows a poster
+ * image and only mounts the player on click), but see the hosting note in the
+ * README before committing them — putting video in the repo is the one decision
+ * here that's genuinely hard to undo.
+ *
+ * TODO(James): retitle these — the captions are placeholders, written without
+ * having watched the footage.
  */
-export const videos: Video[] = [];
+export const videos: Video[] = [
+  {
+    kind: "mp4",
+    src: "/before-after-1.mp4",
+    poster: "/after-1.jpg",
+    title: "Bed clearing, start to finish",
+  },
+  {
+    kind: "mp4",
+    src: "/before-after-2.mp4",
+    poster: "/after-2.jpg",
+    title: "Stump grinding, start to finish",
+  },
+];
 
 /** Options in the contact form's "what do you need?" dropdown. */
 export const inquiryTypes = [

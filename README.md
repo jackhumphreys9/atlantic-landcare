@@ -30,35 +30,61 @@ Without `RESEND_API_KEY`, the contact form still submits — the message prints 
 your terminal instead of being emailed. That's intentional so you can build the
 site before setting up email.
 
-## ⚠️ Images still needed
+## Images
 
-The site references eight photos that aren't in the repo yet. Until they're
-added you'll see broken images. Check at any time with:
+Original photos live in `assets-raw/`, which is **gitignored and never
+deployed**. The versions the site actually uses are generated from them:
 
 ```bash
-npm run check:images
+npm run prepare:images   # assets-raw/*  →  public/*.jpg
+npm run check:images     # verify every path referenced in src/ exists
 ```
 
-Save the files at these exact paths:
+`prepare:images` does three things to each file:
 
-| Path | Photo |
+1. **Crops the black letterbox bars.** These are phone screenshots, so each one
+   arrived at full screen height with black bands above and below the photo —
+   between 176px and 674px per edge, and not symmetrical, so a centered crop
+   would have been wrong. The bars are detected per file.
+2. **Caps the long edge at 1800px** (shrinking only, never upscaling).
+3. **Re-encodes as JPEG.** The set went from 22MB to 4.8MB. Next.js shrinks them
+   further on request — the largest lands around 210KB at typical display width.
+
+It's safe to re-run: originals in `assets-raw/` are never modified. To add a new
+photo, drop it in `assets-raw/` and run it again.
+
+`assets-raw/reference/` holds the original Facebook review screenshots. They're
+kept for reference only and are deliberately **not** published — they contain
+reviewer names and profile photos, and the site shows the reviews anonymously.
+
+### Current photos
+
+| File | Photo |
 | --- | --- |
-| `public/logo.png` | The Atlantic Landcare stump logo |
-| `public/james.jpg` | James's headshot in the green polo |
-| `public/gallery/stump-front-before.jpg` | Cut trunks still in the front yard, tan house behind |
-| `public/gallery/stump-front-after.jpg` | Same yard ground flat, covered in chips |
-| `public/gallery/lot-clearing-before.jpg` | Overgrown brush, sun through the trees |
-| `public/gallery/lot-clearing-after.jpg` | Same area cleared, truck and trailer parked |
-| `public/gallery/mulch-bed-after.jpg` | Black mulch bed with brick edging |
-| `public/gallery/grinder-at-work.jpg` | The red stump grinder mid-job |
+| `logo.jpg` | Atlantic Landcare stump logo |
+| `headshot.jpg` | James in the green polo |
+| `before-1.jpg` / `after-1.jpg` | Overgrown corner → planted bed with brick edging |
+| `before-2.jpg` / `after-2.jpg` | Grinder mid-job → lot graded flat |
+| `before-3.jpg` / `after-3.jpg` | Cut trunks → ground flat to lawn height |
 
-Two notes on the source files:
+## ⚠️ Video hosting decision
 
-- **Use the original photos, not the phone screenshots.** The screenshots have
-  black letterbox bars baked in, which will show up as black bands inside the
-  rounded frames.
-- Anything over ~2500px wide is wasted — Next.js resizes on the fly, but the
-  original still has to be committed and uploaded.
+`public/before-after-1.mp4` (28MB) and `before-after-2.mp4` (62MB) are wired
+into the gallery but **not committed**, pending a call on where they should
+live.
+
+The gallery shows a poster image and only mounts the player on click, so nobody
+downloads 62MB just by visiting. The concern is the repo: committing 95MB of
+video writes it into git history permanently, and every clone and every Vercel
+build pays for it from then on. Removing it later means rewriting history.
+
+**Recommended:** upload both to YouTube (unlisted works) and switch the entries
+in `site.config.ts` to `kind: "youtube"`. Free bandwidth, adaptive quality on
+slow connections, and nothing heavy in the repo.
+
+If you'd rather self-host, [Cloudflare Stream](https://www.cloudflare.com/products/cloudflare-stream/)
+is about $5/month. Committing them to the repo works too — just know it's the
+one choice here that's genuinely hard to undo.
 
 ## Editing the content
 
@@ -181,8 +207,9 @@ touching the frontend.
 ## Useful commands
 
 ```bash
-npm run dev            # local dev server
-npm run build          # production build
-npm run lint           # eslint
-npm run check:images   # verify every referenced image exists in public/
+npm run dev              # local dev server
+npm run build            # production build
+npm run lint             # eslint
+npm run prepare:images   # crop + compress assets-raw/ into public/
+npm run check:images     # verify every referenced image exists in public/
 ```

@@ -3,11 +3,12 @@ import { site } from "@/site.config";
 
 export function About() {
   return (
-    <section id="about" className="bg-sand-100 py-24">
+    // sand-50 keeps this distinct from the sand-100 contact block below it.
+    <section id="about" className="bg-sand-50 py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 lg:grid-cols-[0.8fr_1fr]">
         <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl bg-sand-300">
           <Image
-            src="/james.jpg"
+            src="/headshot.jpg"
             alt={`${site.owner.name}, owner of ${site.name}`}
             fill
             sizes="(min-width: 1024px) 400px, 90vw"
