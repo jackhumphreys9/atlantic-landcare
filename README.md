@@ -14,7 +14,7 @@ contact form that emails James.
 | Styling | Tailwind CSS v4 | Brand colors live in `src/app/globals.css` |
 | Backend | One Next.js Route Handler | `src/app/api/contact/route.ts` — no separate server |
 | Email | [Resend](https://resend.com) | Free tier covers 3,000 emails/month |
-| Hosting | [Vercel](https://vercel.com) | Free Hobby tier is enough for this site |
+| Hosting | [Cloudflare Workers](https://workers.cloudflare.com) via [OpenNext](https://opennext.js.org/cloudflare) | Free tier, and unlike Vercel's Hobby plan it permits commercial use |
 
 ## Running locally
 
@@ -46,9 +46,17 @@ npm run check:images     # verify every path referenced in src/ exists
    arrived at full screen height with black bands above and below the photo —
    between 176px and 674px per edge, and not symmetrical, so a centered crop
    would have been wrong. The bars are detected per file.
-2. **Caps the long edge at 1800px** (shrinking only, never upscaling).
-3. **Re-encodes as JPEG.** The set went from 22MB to 4.8MB. Next.js shrinks them
-   further on request — the largest lands around 210KB at typical display width.
+2. **Caps the long edge at 1000px** (shrinking only, never upscaling).
+3. **Re-encodes as JPEG.** The set went from 22MB to 1.8MB.
+
+**These files are served exactly as generated.** Next's image optimizer needs a
+Node process with sharp, which a Cloudflare Worker doesn't have, so
+`images.unoptimized` is set in `next.config.ts` and the sizes above are sized
+against the real layout — the widest any photo renders is the ~530px
+single-column gallery slot, so 1000px covers 2x displays. next/image still does
+lazy loading and reserves layout space; only resizing and format conversion are
+gone. If that ever isn't enough, the upgrade is Cloudflare Image Transformations
+plus a custom `loader`.
 
 It's safe to re-run: originals in `assets-raw/` are never modified. To add a new
 photo, drop it in `assets-raw/` and run it again.
@@ -195,21 +203,68 @@ address you registered with. To send to James's real inbox, verify the
 `atlanticlandcarellc.com` domain in Resend (a few DNS records) and set
 `CONTACT_FROM_EMAIL` to something like `website@atlanticlandcarellc.com`.
 
-## Deploying to Vercel
+## Deploying to Cloudflare
 
-1. Push this repo to GitHub.
-2. At [vercel.com/new](https://vercel.com/new), import the repo. Vercel detects
-   Next.js — accept every default.
-3. Add `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, and `CONTACT_FROM_EMAIL` under
-   **Settings → Environment Variables**, then redeploy.
+The site runs as a Cloudflare Worker via the
+[OpenNext adapter](https://opennext.js.org/cloudflare), which turns the ordinary
+`next build` output into something Workers can run. Nothing about how you write
+the app changes — `npm run dev` is still plain Next.js.
 
-Every push to `main` deploys to production; every pull request gets its own
-preview URL you can send to James for feedback.
+> Cloudflare's docs now point at **vinext** as their default Next.js path. It's
+> still beta, so this uses OpenNext, which is GA.
+
+```bash
+npm run cf:preview   # build + run the real Worker locally on :8787
+npm run cf:deploy    # build + push it live
+```
+
+`cf:preview` is worth running before any deploy — it uses the actual Workers
+runtime, which catches things `npm run dev` won't.
+
+### First deploy
+
+```bash
+npx wrangler login   # opens the browser once
+npm run cf:deploy
+```
+
+That publishes to `atlantic-landcare.<your-subdomain>.workers.dev`.
+
+### Secrets
+
+Runtime values are Worker secrets, committed nowhere:
+
+```bash
+npx wrangler secret put RESEND_API_KEY
+npx wrangler secret put CONTACT_TO_EMAIL
+npx wrangler secret put CONTACT_FROM_EMAIL
+```
+
+`NEXT_PUBLIC_SITE_URL` is different — it's baked in at **build** time, not read
+at runtime, so a Worker secret does nothing for it. It falls back to
+`https://www.atlanticlandcarellc.com` in `site.config.ts`, which is already
+correct, so it only needs setting if the domain changes.
+
+### Deploy on push
+
+Optional, and nicer once set up: Cloudflare dashboard → **Workers & Pages** →
+**Create** → **Import a repository**. Point it at the GitHub repo with:
+
+- Build command: `npx opennextjs-cloudflare build`
+- Deploy command: `npx wrangler deploy`
+
+Every push to `main` then deploys on its own.
 
 ### Custom domain
 
-He already owns `atlanticlandcarellc.com` (it's in his email), so point it at
-Vercel under **Settings → Domains**. HTTPS is automatic and free.
+Cloudflare dashboard → the Worker → **Settings** → **Domains & Routes** → **Add
+custom domain**. If the domain's nameservers point at Cloudflare, DNS and HTTPS
+are handled for you. Otherwise add the records Cloudflare shows you at whatever
+DNS host the domain uses.
+
+**Don't remove the `MX` or `TXT` records on `atlanticlandcarellc.com`** —
+Google Workspace runs James's email on that domain, and deleting them stops his
+mail silently.
 
 ## Spam
 
@@ -227,4 +282,6 @@ npm run build            # production build
 npm run lint             # eslint
 npm run prepare:images   # crop + compress assets-raw/ into public/
 npm run check:images     # verify every referenced image exists in public/
+npm run cf:preview       # run the real Cloudflare Worker locally on :8787
+npm run cf:deploy        # build + deploy to Cloudflare
 ```

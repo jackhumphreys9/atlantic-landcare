@@ -28,8 +28,15 @@ const RAW = join(ROOT, "assets-raw");
 const PUBLIC = join(ROOT, "public");
 const TMP = join(ROOT, "node_modules", ".cache", "prepare-images");
 
-const MAX_EDGE = 1800; // plenty for a full-bleed photo on a retina laptop
-const QUALITY = 78;
+/**
+ * These files are served as-is — there's no optimizer resizing them on the fly
+ * (see `images.unoptimized` in next.config.ts), so what's generated here is
+ * exactly what visitors download. Sized against the real layout: the widest any
+ * photo renders is the ~530px single-column gallery slot, so 1000px covers 2x
+ * displays with room to spare.
+ */
+const MAX_EDGE = 1000;
+const QUALITY = 72;
 const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".heic"]);
 
 /**
