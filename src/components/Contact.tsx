@@ -1,10 +1,9 @@
-import { ContactForm } from "@/components/ContactForm";
 import { site } from "@/site.config";
 
 export function Contact() {
   return (
     <section id="contact" className="bg-sand-100 py-24">
-      <div className="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1fr_1.2fr]">
+      <div className="mx-auto max-w-3xl px-5">
         <div>
           <h2 className="font-display text-3xl font-bold text-bark-900 sm:text-4xl">
             Get a free quote
@@ -55,8 +54,6 @@ export function Contact() {
             </div>
           </dl>
         </div>
-
-        <ContactForm />
       </div>
     </section>
   );

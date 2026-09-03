@@ -72,12 +72,6 @@ export const site = {
     facebookReviews:
       "https://www.facebook.com/AtlanticLandcareLLC/reviews/?id=61589348813099&sk=reviews",
   },
-
-  /**
-   * Where contact-form submissions get emailed.
-   * Overridable without a code change via the CONTACT_TO_EMAIL env var.
-   */
-  contactInbox: "james@atlanticlandcarellc.com",
 } as const;
 
 /**
@@ -237,9 +231,3 @@ export const videos: Video[] = [
     title: "Another cleanup, start to finish",
   },
 ];
-
-/** Options in the contact form's "what do you need?" dropdown. */
-export const inquiryTypes = [
-  ...services.map((service) => service.title),
-  "Something else",
-] as const;

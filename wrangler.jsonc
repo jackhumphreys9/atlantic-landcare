@@ -4,9 +4,7 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-08-01",
   // nodejs_compat: the app runs on the Node.js runtime, which the adapter needs.
-  // global_fetch_strictly_public: makes fetch() inside the Worker behave like a
-  // real outbound request, which the Resend call in /api/contact depends on.
-  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
