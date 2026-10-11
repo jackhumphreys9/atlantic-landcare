@@ -3,16 +3,17 @@
 Marketing site for Atlantic Landcare LLC — stump grinding and property cleanups,
 owner-operated by James Yates.
 
-One page: hero, services, before/after gallery, Facebook reviews, and about —
-with a call/email/service-area block instead of a contact form, since James's
-customers call.
+One page: hero, services, before/after gallery, Facebook reviews, about, and a
+contact form that emails James.
 
 ## Stack
 
 | Piece | Choice | Notes |
 | --- | --- | --- |
-| Framework | Next.js (App Router) + React + TypeScript | Fully static — no backend |
+| Framework | Next.js (App Router) + React + TypeScript | Frontend and backend in one project |
 | Styling | Tailwind CSS v4 | Brand colors live in `src/app/globals.css` |
+| Backend | One Next.js Route Handler | `src/app/api/contact/route.ts` — no separate server |
+| Email | [Resend](https://resend.com) | Free tier covers 3,000 emails/month |
 | Hosting | [Cloudflare Workers](https://workers.cloudflare.com) via [OpenNext](https://opennext.js.org/cloudflare) | Free tier, and unlike Vercel's Hobby plan it permits commercial use |
 
 ## Running locally
@@ -24,6 +25,10 @@ npm run dev
 ```
 
 Open http://localhost:3000.
+
+Without `RESEND_API_KEY`, the contact form still submits — the message prints to
+your terminal instead of being emailed. That's intentional so you can build the
+site before setting up email.
 
 ## Images
 
@@ -107,6 +112,9 @@ need his eyes:
 
 Service area, service list, and the Facebook page URL are confirmed.
 
+The contact form's dropdown is derived from the `services` array, so adding or
+removing a service updates the form automatically.
+
 ### Adding a before/after pair
 
 ```ts
@@ -184,6 +192,17 @@ import Image from "next/image";
 
 The dark overlay is already in place, so the white text stays readable.
 
+## Setting up email
+
+1. Sign up at [resend.com](https://resend.com) and create an API key.
+2. Put it in `.env.local` as `RESEND_API_KEY`.
+3. Set `CONTACT_TO_EMAIL` to James's inbox.
+
+While testing, the default sender `onboarding@resend.dev` only delivers to the
+address you registered with. To send to James's real inbox, verify the
+`atlanticlandcarellc.com` domain in Resend (a few DNS records) and set
+`CONTACT_FROM_EMAIL` to something like `website@atlanticlandcarellc.com`.
+
 ## Deploying to Cloudflare
 
 The site runs as a Cloudflare Worker via the
@@ -211,11 +230,20 @@ npm run cf:deploy
 
 That publishes to `atlantic-landcare.<your-subdomain>.workers.dev`.
 
-There are no runtime secrets — the site has no backend. `NEXT_PUBLIC_SITE_URL`
-is the only environment variable, and it's baked in at **build** time, not read
-at runtime. It falls back to `https://www.atlanticlandcarellc.com` in
-`site.config.ts`, which is already correct, so it only needs setting if the
-domain changes.
+### Secrets
+
+Runtime values are Worker secrets, committed nowhere:
+
+```bash
+npx wrangler secret put RESEND_API_KEY
+npx wrangler secret put CONTACT_TO_EMAIL
+npx wrangler secret put CONTACT_FROM_EMAIL
+```
+
+`NEXT_PUBLIC_SITE_URL` is different — it's baked in at **build** time, not read
+at runtime, so a Worker secret does nothing for it. It falls back to
+`https://www.atlanticlandcarellc.com` in `site.config.ts`, which is already
+correct, so it only needs setting if the domain changes.
 
 ### Deploy on push
 
@@ -237,6 +265,14 @@ DNS host the domain uses.
 **Don't remove the `MX` or `TXT` records on `atlanticlandcarellc.com`** —
 Google Workspace runs James's email on that domain, and deleting them stops his
 mail silently.
+
+## Spam
+
+The form has a honeypot field that catches most low-effort bots. If real spam
+starts arriving, the next step is rate limiting with
+[Upstash Redis](https://upstash.com) (free tier) or swapping the honeypot for
+Cloudflare Turnstile — both drop into `src/app/api/contact/route.ts` without
+touching the frontend.
 
 ## Useful commands
 
