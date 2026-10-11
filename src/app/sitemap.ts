@@ -1,10 +1,6 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/site.config";
+import { services, site } from "@/site.config";
 
-/**
- * One page, so this is short — but it gives Search Console something to submit
- * and a place to add entries if the site ever grows past a single page.
- */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
@@ -12,5 +8,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    {
+      url: `${site.url}/services`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...services.map((service) => ({
+      url: `${site.url}/services/${service.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
   ];
 }

@@ -106,14 +106,57 @@ component to update copy.
 There are two `TODO(James)` comments in that file marking things that still
 need his eyes:
 
-1. **Service descriptions** — the seven service titles are his, but the sentence
-   under each one was drafted here. Worth reading for anything that oversells.
+1. **Service descriptions and process steps** — the seven service titles are
+   his, but the sentence under each one, and the "how it's done" steps on each
+   service's own page, were drafted here. Worth reading for anything that
+   oversells or misdescribes the actual work.
 2. **Gallery captions** — written from the photos, not from knowing the jobs.
 
 Service area, service list, and the Facebook page URL are confirmed.
 
 The contact form's dropdown is derived from the `services` array, so adding or
 removing a service updates the form automatically.
+
+### Service pages
+
+Each service gets its own page at `/services/<slug>` — one URL Google can rank
+for "stump grinding in Ocean Pines" instead of one homepage section split
+seven ways. `/services` lists them all. Both are generated from the `services`
+array in `site.config.ts`; there's no separate file per service.
+
+Adding a service — or editing one — is a config change, not a new file:
+
+```ts
+{
+  slug: "deck-staining",
+  title: "Deck Staining",
+  description: "One line, shown on cards and as the page's meta description.",
+  icon: "wash", // pick an existing key from src/components/service-icons.tsx, or add one
+  process: [
+    "Step one.",
+    "Step two — three or four short, honest steps; not a sales pitch.",
+  ],
+}
+```
+
+The page picks up a matching customer review automatically if one exists.
+Tagging a review for a service is a one-line addition on the `testimonials`
+entry:
+
+```ts
+services: ["Stump Grinding"],
+```
+
+A review can be tagged for more than one service — the page prefers a review
+tagged for *only* this service over one tagged more broadly, so a review
+specific to the job doesn't get shadowed by a broader one earlier in the list.
+Most services currently have no tagged review at all, and that section just
+doesn't render — there's nothing to fake until a real quote exists for it.
+
+This is deliberately barebones for now — one description, four process steps,
+maybe a review. Worth expanding later with real photos per service, pricing
+ranges if James wants them public, or more specific copy once he's reviewed
+the drafts above.
 
 ### Adding a before/after pair
 

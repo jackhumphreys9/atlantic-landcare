@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { site } from "@/site.config";
 
+/*
+ * "/#work" rather than "#work": now that /services and /services/[slug]
+ * exist, a bare hash link would try to scroll the current page instead of
+ * navigating home first. The leading slash makes these work from anywhere.
+ */
 const links = [
-  { href: "#work", label: "Before & After" },
-  { href: "#services", label: "Services" },
-  { href: "#testimonials", label: "Reviews" },
-  { href: "#about", label: "About" },
+  { href: "/#work", label: "Before & After" },
+  { href: "/services", label: "Services" },
+  { href: "/#testimonials", label: "Reviews" },
+  { href: "/#about", label: "About" },
 ];
 
 export function Header() {
@@ -45,12 +50,12 @@ export function Header() {
           >
             {site.phone}
           </a>
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             className="rounded-full bg-leaf-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-leaf-500"
           >
             Get a Quote
-          </a>
+          </Link>
         </div>
       </div>
     </header>
