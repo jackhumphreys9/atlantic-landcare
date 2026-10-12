@@ -81,6 +81,7 @@ export function ContactForm() {
         </h3>
         <p className="mt-2 text-bark-700">
           We usually reply within one business day. Thanks for reaching out!
+          If it&apos;s urgent, call us at{" "}
           <a
             href={`tel:${site.phoneHref}`}
             className="font-semibold text-leaf-600 underline"
