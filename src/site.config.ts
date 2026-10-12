@@ -110,7 +110,26 @@ export const site = {
  * that oversells or misdescribes what's actually offered. The grid reflows
  * on its own, so services can be added or removed freely.
  */
-export const services = [
+export type Service = {
+  slug: string;
+  title: string;
+  description: string;
+  icon: string;
+  process: string[];
+  /**
+   * Optional, service-specific explainer — a photo plus a short "here's
+   * exactly how we quote this" note. Currently only stump grinding has one;
+   * omit it for a service with nothing specific to explain yet rather than
+   * forcing content that isn't there.
+   */
+  quotingNote?: {
+    image: string;
+    heading: string;
+    caption: string;
+  };
+};
+
+export const services: Service[] = [
   {
     slug: "stump-grinding",
     title: "Stump Grinding",
@@ -123,6 +142,20 @@ export const services = [
       "Backfill the hole with the ground-up wood where that works for you, or haul it off if you'd rather have it gone entirely.",
       "Rake the area level and walk the site together before leaving.",
     ],
+    /**
+     * Optional, service-specific explainer shown on this service's own page
+     * only — a first piece of the "common misconceptions" content Jack wants
+     * to build out further. Addresses a real quoting confusion: stump size
+     * (and so price) is measured root flare to root flare — the widest point
+     * where the trunk meets the ground — not trunk width, which reads much
+     * smaller and undersells what's actually in the ground.
+     */
+    quotingNote: {
+      image: "/root-flare-measurement.jpg",
+      heading: "How we measure for a quote",
+      caption:
+        "Root flare to root flare — the widest point where the trunk meets the ground — not trunk width. Measuring the trunk instead of the flare is the most common reason a phone quote ends up off from what's actually in the ground.",
+    },
   },
   {
     slug: "landscape-design",
@@ -202,7 +235,7 @@ export const services = [
       "Rinse and walk the surface to check for anything missed.",
     ],
   },
-] as const;
+];
 
 export type GalleryItem = {
   title: string;

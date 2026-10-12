@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { services, site, testimonials } from "@/site.config";
@@ -129,6 +130,27 @@ export default async function ServicePage(
               </li>
             ))}
           </ol>
+
+          {service.quotingNote && (
+            <figure className="mt-16">
+              <Image
+                src={service.quotingNote.image}
+                alt={service.quotingNote.caption}
+                width={1000}
+                height={657}
+                sizes="(min-width: 1024px) 800px, 90vw"
+                className="w-full rounded-2xl"
+              />
+              <figcaption className="mt-4">
+                <p className="font-display text-lg font-semibold text-bark-900">
+                  {service.quotingNote.heading}
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-bark-700">
+                  {service.quotingNote.caption}
+                </p>
+              </figcaption>
+            </figure>
+          )}
 
           {review && (
             <figure className="mt-16 rounded-2xl bg-leaf-100 p-8 sm:p-10">
