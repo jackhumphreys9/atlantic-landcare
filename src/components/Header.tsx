@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/site.config";
+import { SocialLinks } from "@/components/SocialLinks";
 
 /*
  * "/#work" rather than "#work": now that /services and /services/[slug]
@@ -18,17 +20,18 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-sand-300/60 bg-sand-50/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-5">
         {/*
-         * Text wordmark rather than the logo image: the logo is a stacked
-         * lockup with a two-line subtitle, which is unreadable at header
-         * height. The full logo appears in the footer instead.
+         * The real logo now, not a text stand-in — the new mark is a single
+         * line (no subtitle underneath it), so it stays legible this small.
          */}
-        <Link href="/" className="leading-tight">
-          <span className="block font-display text-xl font-bold tracking-tight text-leaf-600">
-            {site.name}
-          </span>
-          <span className="hidden text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-bark-700 sm:block">
-            {site.descriptor}
-          </span>
+        <Link href="/" className="relative h-9 w-[120px] shrink-0 sm:h-10 sm:w-[135px]">
+          <Image
+            src="/logo.jpg"
+            alt={site.name}
+            fill
+            sizes="135px"
+            priority
+            className="object-contain object-left"
+          />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
@@ -43,7 +46,9 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          <SocialLinks className="flex items-center gap-3" iconClassName="h-5 w-5" />
+          <span aria-hidden className="hidden h-5 w-px bg-sand-300 sm:block" />
           <a
             href={`tel:${site.phoneHref}`}
             className="hidden text-sm font-semibold text-bark-700 transition-colors hover:text-leaf-600 sm:block"

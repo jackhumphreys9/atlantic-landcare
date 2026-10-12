@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { site } from "@/site.config";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export function Footer() {
   return (
@@ -7,21 +8,24 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-3">
         <div>
           {/*
-           * The logo artwork has a cream background baked in, so it sits in a
-           * rounded tile rather than floating on the dark footer.
+           * White tile, not the old cream one: the new logo's own background
+           * is pure white, so a cream tile would show as a visible mismatched
+           * border around it. Wide rather than square — this logo is a single
+           * horizontal line (icon + wordmark), not a stacked lockup.
            */}
-          <div className="relative h-32 w-32 overflow-hidden rounded-xl bg-sand-100">
+          <div className="relative h-20 w-56 overflow-hidden rounded-xl bg-white">
             <Image
               src="/logo.jpg"
               alt={`${site.name} logo`}
               fill
-              sizes="128px"
-              className="object-contain p-1"
+              sizes="224px"
+              className="object-contain p-2"
             />
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-sand-300">
             {site.description}
           </p>
+          <SocialLinks className="mt-5 flex items-center gap-4" iconClassName="h-6 w-6" />
         </div>
 
         <div className="text-sm">
@@ -47,14 +51,6 @@ export function Footer() {
               <li key={town}>{town}</li>
             ))}
           </ul>
-          <a
-            href={site.social.facebook}
-            className="mt-4 inline-block text-sand-300 hover:text-sun-500"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Find us on Facebook
-          </a>
         </div>
       </div>
 

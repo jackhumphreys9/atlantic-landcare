@@ -1,6 +1,6 @@
 # Atlantic Landcare
 
-Marketing site for Atlantic Landcare LLC — stump grinding and property cleanups,
+Marketing site for Atlantic Landcare LLC — landscaping and property care,
 owner-operated by James Yates.
 
 One page: hero, services, before/after gallery, Facebook reviews, about, and a
@@ -69,11 +69,19 @@ reviewer names and profile photos, and the site shows the reviews anonymously.
 
 | File | Photo |
 | --- | --- |
-| `logo.jpg` | Atlantic Landcare stump logo |
+| `logo.jpg` | Atlantic Landcare logo — wave/leaf mark + wordmark |
 | `headshot.jpg` | James in the green polo |
 | `before-1.jpg` / `after-1.jpg` | Overgrown corner → planted bed with brick edging |
 | `before-2.jpg` / `after-2.jpg` | Grinder mid-job → lot graded flat |
 | `before-3.jpg` / `after-3.jpg` | Cut trunks → ground flat to lawn height |
+
+`assets-raw/logo.jpg` is a special case: it's already tightly cropped (not a
+raw, letterboxed screenshot like the others), because the logo's icon and
+wordmark touch with no clean gap between them, so the usual automatic
+black-bar detection would leave a lot of dead white space around it. Re-running
+`prepare:images` on it is still safe — with no black bars left to find, it just
+resizes and recompresses. A future logo swap should go through the same manual
+crop rather than relying on the auto-detector.
 
 ## 📹 Video — waiting on YouTube uploads
 
@@ -216,10 +224,19 @@ is about $5/month if he wants a player without YouTube branding.
 
 ### Changing the colors
 
-The brand colors are defined at the top of `src/app/globals.css` under `@theme`,
-sampled from the logo — dark green, cream, and the gold from the sun behind the
-stump. Change those values and the whole site re-skins; components only
-reference the names (`bark-900`, `leaf-600`, `sand-50`, `sun-500`).
+The brand colors are defined at the top of `src/app/globals.css` under
+`@theme`. `bark-900` and `leaf-500` are pixel-sampled directly from the logo
+file, not eyeballed — a near-black forest green and a bright olive green. The
+rest are derived from those two: `bark-700` a lighter, desaturated sage for
+body text; `leaf-600` a darkened `leaf-500` so white button text clears WCAG AA
+contrast (`leaf-500` itself is too bright to use as a button fill — it's for
+text, links, and hover states instead); `leaf-100` a near-white tint for
+section backgrounds. `sand-*` are warm neutrals not tied to the logo, and
+`sun-500` is an independent gold accent for contrast against the dark green
+sections — the logo itself is purely two-tone green.
+
+Change `bark-900` or `leaf-500` and most of the palette should be re-derived
+to match — they're not independent knobs.
 
 ### A real hero photo
 

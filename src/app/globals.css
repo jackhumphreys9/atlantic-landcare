@@ -4,17 +4,29 @@
  * Brand palette. Change these six values and the whole site re-skins.
  * Deliberately light-only — a landscaping site is all photography and green,
  * and an auto dark mode fights both.
+ *
+ * bark-900 and leaf-500 are sampled directly from James's logo (pixel-picked,
+ * not eyeballed): a near-black forest green and a bright olive green. The
+ * other tokens are derived from those two — bark-700 a desaturated, lighter
+ * sage for body text; leaf-600 a darkened version of leaf-500 so white text on
+ * a leaf-600 button clears WCAG AA (leaf-500 itself is too bright for that —
+ * check before using it as a button fill); leaf-100 a near-white tint of
+ * leaf-500 for section backgrounds.
  */
 @theme {
-  --color-bark-900: #1e3323;
-  --color-bark-700: #425a49;
-  --color-leaf-600: #2d5a34;
-  --color-leaf-500: #417a4c;
-  --color-leaf-100: #e3eee5;
+  --color-bark-900: #072e1c;
+  --color-bark-700: #356e53;
+  --color-leaf-600: #46721d;
+  --color-leaf-500: #578d23;
+  --color-leaf-100: #e6eede;
   --color-sand-50: #faf7f0;
   --color-sand-100: #f2ecdc;
   --color-sand-300: #ddd2b8;
-  /* Gold from the sun behind the stump in the logo. Accents only. */
+  /*
+   * Warm accent for contrast against the dark bark-900 sections (eyebrow
+   * text, hover states) — the logo itself is two-tone green with nothing
+   * gold in it, so this is an independent pairing, not sampled from it.
+   */
   --color-sun-500: #e0a951;
 
   --font-sans: var(--font-sans-body), ui-sans-serif, system-ui, sans-serif;

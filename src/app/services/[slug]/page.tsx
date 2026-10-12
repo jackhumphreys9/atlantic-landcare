@@ -100,7 +100,7 @@ export default async function ServicePage(
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={`tel:${site.phoneHref}`}
-              className="rounded-full bg-leaf-500 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-leaf-600"
+              className="rounded-full bg-leaf-600 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-leaf-500"
             >
               Call {site.phone}
             </a>

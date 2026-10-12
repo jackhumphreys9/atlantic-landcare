@@ -31,10 +31,21 @@ export const site = {
 
   name: "Atlantic Landcare",
   legalName: "Atlantic Landcare LLC",
-  descriptor: "Stump Grinding & Property Cleanups",
+  /**
+   * Used in <title>, the header's small subtitle, the hero eyebrow, and the
+   * generated social-share image — everywhere the site's "title" actually
+   * shows up. Broadened from "Stump Grinding & Property Cleanups" on
+   * purpose: with seven services now listed, leading with just two of them
+   * undersold the rest.
+   */
+  descriptor: "Landscaping & Property Care",
+  // TODO(Jack): still stump/cleanup-specific — flagged, not changed, since
+  // it's the big hero headline rather than literally "the title." Worth
+  // revisiting alongside descriptor if the broader framing should carry
+  // through here too.
   tagline: "Stumps gone. Property cleared.",
   description:
-    "Owner-operated stump grinding and property cleanup. You deal with James from the first walkthrough to the last load hauled out.",
+    "Owner-operated landscaping and property care — stump grinding, brush clearing, cleanups, and more. You deal with James from the first walkthrough to the last job done.",
 
   owner: {
     name: "James Yates",
@@ -71,6 +82,7 @@ export const site = {
     /** Deep link straight to the reviews tab, used by the reviews button. */
     facebookReviews:
       "https://www.facebook.com/AtlanticLandcareLLC/reviews/?id=61589348813099&sk=reviews",
+    instagram: "https://www.instagram.com/atlanticlandcare",
   },
 
   /**

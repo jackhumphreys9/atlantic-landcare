@@ -24,7 +24,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#1e3323",
+          background: "#072e1c", // bark-900
           padding: "72px 80px",
           fontFamily: "sans-serif",
         }}
@@ -75,7 +75,7 @@ export default function OpengraphImage() {
           <div style={{ fontSize: 40, color: "#ffffff", fontWeight: 700 }}>
             {site.name}
           </div>
-          <div style={{ fontSize: 40, color: "#4f9a60", fontWeight: 700 }}>
+          <div style={{ fontSize: 40, color: "#578d23" /* leaf-500 */, fontWeight: 700 }}>
             {site.phone}
           </div>
         </div>
